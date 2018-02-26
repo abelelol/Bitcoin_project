@@ -8,25 +8,42 @@ btcs.onopen = function(){
 	btcs.send(JSON.stringify({"op":"addr_unsub", "addr":"1N6d7Y6qMtr1B3NRCk3Ge2CDBgf4iLfzJR"}));
 };
 
-btcs.onmessage = function(onmsg){
-	var response = JSON.parse(onmsg.data);
-	var getOuts = response.x.out;
-	var countOuts = getOuts.length;
-	var i;
-	for(i=0; i<countOuts; i++){
-		var outAdd = response.x.out[i].addr;
-		var address = "1N6d7Y6qMtr1B3NRCk3Ge2CDBgf4iLfzJR";
-		if(outAdd === address){
-			var amount = response.x.out[i].value;
-			var calAmount = amount / 100000000;
-			document.getElementById("websocket").innerHTML = "Recieved:" + calAmount + "BTC";
-		}if(outAdd === null){
-				document.getElementById("websocket").innerHTML = "Recieved:BTC";
-		};
-	};
-};
+
 
 class App extends Component {
+
+  constructor(props){
+	  super(props)
+	  this.state = {
+		  btcs : btcs,
+		  balance: 0
+	  }
+
+	  btcs.onmessage = function(onmsg){
+	  	var response = JSON.parse(onmsg.data);
+	  	var getOuts = response.x.out;
+	  	var countOuts = getOuts.length;
+	  	var i;
+	  	for(i=0; i<countOuts; i++){
+	  		var outAdd = response.x.out[i].addr;
+	  		var address = "1N6d7Y6qMtr1B3NRCk3Ge2CDBgf4iLfzJR";
+	  		if(outAdd === address){
+	  			var amount = response.x.out[i].value;
+	  			this.updateBalance(amount)
+	  		};
+	    };
+	}
+	  this.updateBalance = this.updateBalance.bind(this)
+  }
+
+  updateBalance(amount){
+ 	this.setState(
+		  {
+			  balance: amount/100000000
+		  }
+	  )
+  }
+
 
   render() {
 
@@ -39,7 +56,15 @@ class App extends Component {
         </header>
         <p className="App-intro">
         </p>
-		<p id="websocket">This is a test</p>
+		<p id="websocket">
+		{
+			this.state.balance == 0 ?
+				"Recieved:BTC":
+				"Recieve" + this.state.balance + "BTC"
+
+
+		}
+		</p>
       </div>
 
     );

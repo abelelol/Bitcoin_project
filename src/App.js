@@ -37,9 +37,7 @@ class App extends Component {
 
    handleChange(event) {
      this.setState({btcAddress: event.target.value })
-	 var newArray = this.state.transactions.slice()
-	 newArray.push(this.state.balance)
-	 this.setState({transactions:newArray})
+	 
    }
 
    handleSubmit(event) {
@@ -92,6 +90,9 @@ class App extends Component {
 
 	  		};
 	    };
+		var newArray = this.state.transactions.slice()
+		newArray.push(this.state.balance)
+		this.setState({transactions:newArray})
 	}
 
 	this.getBalance(address)

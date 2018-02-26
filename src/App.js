@@ -15,7 +15,8 @@ class App extends Component {
 	  this.state = {
 		  balance: 0,
 		  btcAddress: "1N6d7Y6qMtr1B3NRCk3Ge2CDBgf4iLfzJR",
-		  changed: false
+		  changed: false,
+		  transactions: []
 	  }
 
 	  this.getBalance = this.getBalance.bind(this)
@@ -36,13 +37,17 @@ class App extends Component {
 
    handleChange(event) {
      this.setState({btcAddress: event.target.value })
+	 var newArray = this.state.transactions.slice()
+	 newArray.push(this.state.balance)
+	 this.setState({transactions:newArray})
    }
 
    handleSubmit(event) {
     event.preventDefault()
 	this.setState({
 		btcs: this.connectToWallet(this.state.btcAddress),
-		changed: true
+		changed: true,
+
 	})
 
   }
@@ -83,6 +88,8 @@ class App extends Component {
 	  		if(outAdd === this.state.btcAddress){
 	  			var amount = response.x.out[i].value;
 	  			this.updateBalance(amount)
+
+
 	  		};
 	    };
 	}
@@ -108,10 +115,11 @@ class App extends Component {
 			/>
         <p className="App-intro">
 		<p>
-			Bitcoin Wallet Address: {this.state.btcAddress}
+			Current Bitcoin Wallet Address: {this.state.btcAddress}
 			<br />
-            Balance: {this.state.balance} BTC
+            Balance of Current Wallet: {this.state.balance} BTC
 			<br />
+			{/* checks to see address changes*/}
 			changed: {"" + this.state.changed}
 		</p>
 		</p>

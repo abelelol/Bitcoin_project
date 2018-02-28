@@ -37,7 +37,7 @@ class App extends Component {
 
    handleChange(event) {
      this.setState({btcAddress: event.target.value })
-	 
+
    }
 
    handleSubmit(event) {
@@ -121,7 +121,9 @@ class App extends Component {
             Balance of Current Wallet: {this.state.balance} BTC
 			<br />
 			{/* checks to see address changes*/}
-			changed: {"" + this.state.changed}
+			changed: {"" + this.state.changed} <br />
+			Current Realtime
+
 		</p>
 		</p>
 		<p id="websocket">

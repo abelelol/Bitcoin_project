@@ -122,7 +122,7 @@ class App extends Component {
 			<br />
 			{/* checks to see address changes*/}
 			changed: {"" + this.state.changed} <br />
-			Current Realtime
+			Current Realtime : {this.state.transactions}
 
 		</p>
 		</p>
